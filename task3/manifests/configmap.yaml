@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: task3
+data:
+  db_url: "postgresql://admin:admin123@postgres:5432/myapp"

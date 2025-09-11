@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-app
+  namespace: task1
+spec:
+  selector:
+    app: web  # Fixed to match pod labels
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 80  
+  type: ClusterIP

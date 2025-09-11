@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+  namespace: task1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-app
+  template:
+    metadata:
+      labels:
+        app: web-app    # Label matches selector but not service
+    spec:
+      containers:
+      - name: web
+        image: hashicorp/http-echo:0.2.3
+        args: ["-text=Hello you fixed it !", "-listen=:80"]   # Changed port to 80
+        ports:
+        - containerPort: 80   # Changed port to 80

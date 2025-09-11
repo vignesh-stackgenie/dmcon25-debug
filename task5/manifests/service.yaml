@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-service
+  namespace: task5
+spec:
+  selector:
+    app: mongodb
+  ports:
+  - name: mongodb
+    port: 27017
+    targetPort: 27017
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service
+  namespace: task5
+spec:
+  selector:
+    app: webapp
+  ports:
+  - name: http
+    port: 3000
+    targetPort: 3000

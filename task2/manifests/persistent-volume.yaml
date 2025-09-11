@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: task2-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: task2-static
+  persistentVolumeReclaimPolicy: Delete
+  hostPath:
+    path: /mnt/task2-data
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: failure-domain.beta.kubernetes.io/zone
+          operator: In
+          values:
+          - lab-zone-a

@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+  namespace: task3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - name: webapp
+        image: python:3.9-slim
+        command:
+        - /bin/bash
+        - -c
+        - |
+          pip install psycopg2-binary >/dev/null 2>&1
+          python -c '
+          import os
+          from http.server import HTTPServer, BaseHTTPRequestHandler
+          import json
+          import psycopg2
+          
+          def check_db():
+              try:
+                  db_url = os.environ.get("DB_URL")  # Using wrong env var name for debug task
+                  if not db_url:
+                      return "Error: DATABASE_URL environment variable not set"
+                  conn = psycopg2.connect(db_url)
+                  conn.close()
+                  return "Success: Connected to database"
+              except Exception as e:
+                  return f"Error: {str(e)}"
+          
+          class Handler(BaseHTTPRequestHandler):
+              def do_GET(self):
+                  self.send_response(200)
+                  self.send_header("Content-type", "application/json")
+                  self.end_headers()
+                  status = check_db()
+                  response = {
+                      "application": "webapp",
+                      "database_status": status
+                  }
+                  self.wfile.write(json.dumps(response).encode())
+          
+          print("Starting web server on port 8080...")
+          HTTPServer(("0.0.0.0", 8080), Handler).serve_forever()
+          '
+        env:
+        - name: DATABASE_URL # wrong name
+          valueFrom:
+            configMapKeyRef:
+              name: app-config 
+              key: db_url
+        ports:
+        - containerPort: 8080

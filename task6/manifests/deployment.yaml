@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: debug-app
+  namespace: debug-practice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: debug-app
+  template:
+    metadata:
+      labels:
+        app: debug-app
+    spec:
+      containers:
+      - name: debug-container
+        image: nginx:1.19
+        ports:
+        - containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /nonexistent
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5

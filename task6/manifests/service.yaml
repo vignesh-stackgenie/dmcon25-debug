@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: debug-app-service
+  namespace: debug-practice
+spec:
+  selector:
+    app: debug-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP
