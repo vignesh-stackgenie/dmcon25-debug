@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: hashicorp/http-echo:0.2.3
+        image: hashicorp/http-echo:1.0.0
         args: ["-text=Hello you fixed it !", "-listen=:80"]   # Changed port to 80
         ports:
         - containerPort: 80   # Changed port to 80
