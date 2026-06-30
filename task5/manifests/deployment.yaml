@@ -39,7 +39,7 @@ spec:
     spec:
       containers:
       - name: webapp
-        image: busybox:1.36
+        image: busybox:1.38
         command: ["/bin/sh", "-c", "echo 'Starting webapp...' && echo 'Testing MongoDB connection...' && echo 'MONGODB_URI:' $MONGODB_URI && echo 'Attempting to connect to MongoDB...' && HOST=$(echo $MONGODB_URI | sed 's|mongodb://||' | cut -d: -f1) && PORT=$(echo $MONGODB_URI | sed 's|mongodb://||' | cut -d: -f2 | cut -d/ -f1) && echo 'Testing connection to:' $HOST:$PORT && if wget -q --spider --timeout=5 http://$HOST:$PORT 2>/dev/null; then echo 'SUCCESS: MongoDB host is reachable'; else echo 'ERROR: Cannot reach' $HOST:$PORT; echo 'This indicates a connection problem'; fi && echo 'Connection test completed' && echo 'App will continue running...' && while true; do echo 'App is running... (MongoDB connection test completed)'; sleep 30; done"]
         env:
         - name: MONGODB_URI
