@@ -2,5 +2,19 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
+  ],
+  "kubernetes": {
+    "managerFilePatterns": ["/task\\d+\\/manifests\\/.*\\.ya?ml$/"]
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^terraform\\/main\\.tf$/"],
+      "matchStrings": [
+        "kind\\.sigs\\.k8s\\.io/dl/(?<currentValue>v[0-9.]+)/kind-linux-amd64"
+      ],
+      "depNameTemplate": "kubernetes-sigs/kind",
+      "datasourceTemplate": "github-releases"
+    }
   ]
 }
