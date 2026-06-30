@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: hashicorp/http-echo:0.2.3
+        image: hashicorp/http-echo:1.0.0
         args: ["-text=Hello from webapp", "-listen=:8080"]
         ports:
         - containerPort: 8080
